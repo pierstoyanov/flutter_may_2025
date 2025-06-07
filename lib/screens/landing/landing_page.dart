@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/providers/calendar_provider.dart';
-import 'package:flutter_application_1/widgets/month_callendar_carousel/month_calendar_carousel.dart';
+import 'package:flutter_application_1/widgets/month_callendar/month_calendar_carousel.dart';
 import 'package:provider/provider.dart';
 
 class LandingPage extends StatefulWidget {
