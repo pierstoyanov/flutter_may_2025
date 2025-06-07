@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/callendar_provider.dart';
 import 'package:flutter_application_1/screens/landing/landing_page.dart';
-import 'package:flutter_application_1/widgets/month_callendar/month_callendar.dart';
+import 'package:flutter_application_1/widgets/month_callendar_carousel/month_calendar_carousel.dart';
+import 'package:provider/provider.dart';
+
 
 class LandingView extends StatelessWidget {
   final LandingPageState state;
@@ -8,31 +11,31 @@ class LandingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: MonthCalendar(
-            initialDate: state.selectedDate,
-            onDateSelected: state.onDateSelected,   
-            selectedDayColor: Colors.purple,
-            todayColor: Colors.orange,
-            dayTextColor: Colors.black87,
-            weekendTextColor: Colors.red,
-            headerTextColor: Colors.deepPurple,
-            dayFontSize: 16.0,
-            headerFontSize: 18.0,
-          ),
-        ),
-        
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Container(
-            color: Colors.amber,
-            height: 250,
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(50),
           )
         ),
-      ]
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(state.widget.title),
+      ),
+      body: ListView(
+        children: [
+          ChangeNotifierProvider(
+            create:(context) => CalendarProvider(DateTime.now()),
+            child: const MonthCalendarCarouselScreen()
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
+              color: Colors.amber,
+              height: 250,
+            )
+          ),
+      ])
     );
   }
 }
