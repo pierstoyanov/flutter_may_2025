@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class MonthCalendarElement extends StatefulWidget {
   final DateTime initialDate;
+  final DateTime? selectedDate;
   final ValueChanged<DateTime>? onDateSelected;
+  final Function(double height)? onHeightDetermined; // Callback to report height
   final Color? selectedDayColor;
   final Color? todayColor;
   final Color? dayTextColor;
@@ -14,8 +15,10 @@ class MonthCalendarElement extends StatefulWidget {
 
   const MonthCalendarElement({
     Key? key,
-    required this.initialDate,
+    required this.initialDate, // This is the month to show
     this.onDateSelected,
+    this.onHeightDetermined,
+    this.selectedDate, // Now passed from the provider
     this.selectedDayColor,
     this.todayColor,
     this.dayTextColor,
@@ -30,16 +33,6 @@ class MonthCalendarElement extends StatefulWidget {
 }
 
 class _MonthCalendarElementState extends State<MonthCalendarElement> {
-  late DateTime _displayedMonth;
-  DateTime? _selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    _displayedMonth = DateTime(widget.initialDate.year, widget.initialDate.month, 1);
-    _selectedDate = widget.initialDate;
-  }
-
   // Helper to get the first day of the month
   DateTime _getFirstDayOfMonth(DateTime month) {
     return DateTime(month.year, month.month, 1);
@@ -55,29 +48,33 @@ class _MonthCalendarElementState extends State<MonthCalendarElement> {
     return _getLastDayOfMonth(month).day;
   }
 
-  // Helper to get the weekday of the first day of the month (0 for Sunday, 6 for Saturday)
+  // Helper to get the weekday of the first day of the month (0 for Monday, 6 for Sunday)
   int _getWeekdayOfFirstDay(DateTime month) {
-    return _getFirstDayOfMonth(month).weekday % 7; // Adjust for Monday = 1 in Dart's DateTime.weekday
+    final DateTime firstDay = _getFirstDayOfMonth(month);
+    // DateTime.weekday returns 1 for Monday, ..., 7 for Sunday.
+    // To make Monday 0, Tuesday 1, ..., Sunday 6, we subtract 1.
+    return firstDay.weekday - 1;
   }
 
   // Builds a single day cell
   Widget _buildDayCell(int day, bool isCurrentMonth) {
     final DateTime today = DateTime.now();
     final DateTime currentDate =
-        DateTime(_displayedMonth.year, _displayedMonth.month, day);
+        DateTime(widget.initialDate.year, widget.initialDate.month, day);
     final bool isToday = currentDate.year == today.year &&
         currentDate.month == today.month &&
         currentDate.day == today.day;
-    final bool isSelected = _selectedDate != null &&
-        currentDate.year == _selectedDate!.year &&
-        currentDate.month == _selectedDate!.month &&
-        currentDate.day == _selectedDate!.day;
+    // Check against the selectedDate passed from the provider
+    final bool isSelected = widget.selectedDate != null &&
+        currentDate.year == widget.selectedDate!.year &&
+        currentDate.month == widget.selectedDate!.month &&
+        currentDate.day == widget.selectedDate!.day;
     final bool isWeekend =
         currentDate.weekday == DateTime.saturday || currentDate.weekday == DateTime.sunday;
 
     Color? textColor = widget.dayTextColor;
     if (!isCurrentMonth) {
-      textColor = textColor?.withOpacity(0.4) ?? Colors.grey.withOpacity(0.4); // Dim out days from other months
+      textColor = Colors.grey; // Dim out days from other months
     } else if (isWeekend) {
       textColor = widget.weekendTextColor ?? Colors.red;
     }
@@ -99,9 +96,7 @@ class _MonthCalendarElementState extends State<MonthCalendarElement> {
     return GestureDetector(
       onTap: () {
         if (isCurrentMonth) {
-          setState(() {
-            _selectedDate = currentDate;
-          });
+          // Call the callback to notify the provider
           widget.onDateSelected?.call(currentDate);
         }
       },
@@ -116,149 +111,107 @@ class _MonthCalendarElementState extends State<MonthCalendarElement> {
             fontSize: widget.dayFontSize,
           ),
         ),
-      ),
+      )
     );
-  }
+    }
 
-  // Builds the header row with day names
-  Widget _buildWeekdayHeader() {
-    final List<String> weekdays = [
-      'Sun',
-      'Mon',
-      'Tue',
-      'Wed',
-      'Thu',
-      'Fri',
-      'Sat'
-    ];
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: weekdays
-          .map(
-            (day) => Expanded(
-              child: Text(
-                day,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: widget.headerTextColor ?? Colors.blueGrey,
-                  fontSize: widget.headerFontSize,
+    // Builds the header row with day names (Modified for Monday start)
+    Widget _buildWeekdayHeader() {
+      final List<String> weekdays = [
+        'Mon',
+        'Tue',
+        'Wed',
+        'Thu',
+        'Fri',
+        'Sat',
+        'Sun'
+      ];
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: weekdays
+            .map(
+              (day) => Expanded(
+                child: Text(
+                  day,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: widget.headerTextColor ?? Colors.blueGrey,
+                    fontSize: widget.headerFontSize,
+                  ),
                 ),
               ),
+            )
+            .toList(),
+      );
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      // Report height after layout
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && widget.onHeightDetermined != null) {
+          final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
+          if (renderBox != null && renderBox.hasSize && renderBox.size.height > 0) {
+            // Check if the height has actually changed to avoid unnecessary calls
+            // This simple check might need more sophisticated handling if rapid small changes occur.
+            widget.onHeightDetermined!(renderBox.size.height);
+          }
+        }
+      });
+
+      final int firstDayWeekday = _getWeekdayOfFirstDay(widget.initialDate);
+      final int daysInMonth = _getNumberOfDaysInMonth(widget.initialDate);
+
+      final int leadingEmptyCells = firstDayWeekday;
+
+      final DateTime lastDayOfPreviousMonth = DateTime(widget.initialDate.year, widget.initialDate.month, 0);
+      final int daysInPreviousMonth = lastDayOfPreviousMonth.day;
+      final List<Widget> previousMonthDays = List.generate(leadingEmptyCells, (index) {
+        final int day = daysInPreviousMonth - leadingEmptyCells + 1 + index;
+        return _buildDayCell(day, false);
+      });
+
+      final List<Widget> currentMonthDays = List.generate(daysInMonth, (index) {
+        return _buildDayCell(index + 1, true);
+      });
+
+      final int totalCells = leadingEmptyCells + daysInMonth;
+      final int trailingEmptyCells = (7 - (totalCells % 7)) % 7;
+
+      final List<Widget> nextMonthDays = List.generate(trailingEmptyCells, (index) {
+        return _buildDayCell(index + 1, false);
+      });
+
+      final List<Widget> allDayCells = [
+        ...previousMonthDays,
+        ...currentMonthDays,
+        ...nextMonthDays,
+      ];
+
+      return Container(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildWeekdayHeader(),
+            const SizedBox(height: 10),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 7,
+                childAspectRatio: 1.0,
+                crossAxisSpacing: 5.0,
+                mainAxisSpacing: 5.0,
+              ),
+              itemCount: allDayCells.length,
+              itemBuilder: (context, index) {
+                return allDayCells[index];
+              },
             ),
-          )
-          .toList(),
-    );
-  }
-
-  void _goToPreviousMonth() {
-    setState(() {
-      _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month - 1, 1);
-      _selectedDate = null; // Clear selection when changing month
-    });
-  }
-
-  void _goToNextMonth() {
-    setState(() {
-      _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month + 1, 1);
-      _selectedDate = null; // Clear selection when changing month
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final int firstDayWeekday = _getWeekdayOfFirstDay(_displayedMonth); // 0 for Sunday, 6 for Saturday
-    final int daysInMonth = _getNumberOfDaysInMonth(_displayedMonth);
-
-    // Calculate the number of empty cells at the beginning
-    final int leadingEmptyCells = firstDayWeekday;
-
-    // Calculate days from the previous month to fill leading empty cells
-    final DateTime lastDayOfPreviousMonth = DateTime(_displayedMonth.year, _displayedMonth.month, 0);
-    final int daysInPreviousMonth = lastDayOfPreviousMonth.day;
-    final List<Widget> previousMonthDays = List.generate(leadingEmptyCells, (index) {
-      final int day = daysInPreviousMonth - leadingEmptyCells + 1 + index;
-      return _buildDayCell(day, false); // false for not current month
-    });
-
-
-    final List<Widget> currentMonthDays = List.generate(daysInMonth, (index) {
-      return _buildDayCell(index + 1, true);
-    });
-
-    // Calculate total number of cells needed (rows * 7 columns, minimum 6 rows for full month view)
-    final int totalCells = leadingEmptyCells + daysInMonth;
-    final int trailingEmptyCells = (7 - (totalCells % 7)) % 7; // Ensures a full grid of 7 columns
-
-    // Days from the next month to fill trailing empty cells
-    final List<Widget> nextMonthDays = List.generate(trailingEmptyCells, (index) {
-      return _buildDayCell(index + 1, false); // false for not current month
-    });
-
-    final List<Widget> allDayCells = [
-      ...previousMonthDays,
-      ...currentMonthDays,
-      ...nextMonthDays,
-    ];
-
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Month navigation header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: _goToPreviousMonth,
-              ),
-              Text(
-                DateFormat.yMMMM().format(_displayedMonth),
-                style: TextStyle(
-                  fontSize: widget.headerFontSize != null ? widget.headerFontSize! + 4 : 20,
-                  fontWeight: FontWeight.bold,
-                  color: widget.headerTextColor ?? Colors.black87,
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.arrow_forward_ios),
-                onPressed: _goToNextMonth,
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          _buildWeekdayHeader(),
-          const SizedBox(height: 10),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(), // Disable scrolling in the grid
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
-              childAspectRatio: 1.0, // Make cells square
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
-            ),
-            itemCount: allDayCells.length,
-            itemBuilder: (context, index) {
-              return allDayCells[index];
-            },
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
   }
 }
