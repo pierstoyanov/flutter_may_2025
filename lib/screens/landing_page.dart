@@ -6,6 +6,7 @@ import 'package:flutter_application_1/widgets/my_bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/widgets/month_callendar/month_calendar.dart';
 import 'package:flutter_application_1/widgets/create_event_fab.dart';
+import 'package:flutter_application_1/widgets/view_toggle_fab.dart';
 
 
 class LandingPage extends StatefulWidget {
@@ -32,7 +33,15 @@ class _LandingPageState extends State<LandingPage> {
         currentIndex: navbarProvider.currentIndex,
         onItemSelected: (index) => navbarProvider.navigateTo(index, context),
       ),
-      floatingActionButton: const CreateEventFAB(),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          const CreateEventFAB(heroTag: 'createEventLandingPage'),
+          const SizedBox(height: 10),
+          const ViewToggleFAB(heroTag: 'viewToggleLandingPage'),
+        ],
+      ),
     );
   }
 }

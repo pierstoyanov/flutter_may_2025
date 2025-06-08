@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CreateEventFAB extends StatelessWidget {
-  const CreateEventFAB({super.key});
+  final Object? heroTag; // Add heroTag parameter
+  const CreateEventFAB({super.key, this.heroTag});
 
   @override
   Widget build(BuildContext context) {

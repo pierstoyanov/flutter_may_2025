@@ -13,6 +13,7 @@ import 'package:flutter_application_1/screens/event_detail_screen.dart';
 import 'package:flutter_application_1/models/event_item.dart';
 import 'package:flutter_application_1/screens/week_view_screen.dart';
 import 'package:flutter_application_1/screens/create_event_screen.dart';
+import 'package:flutter_application_1/screens/day_view_screen.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
   '/': (_) => const LandingPage(title: 'Calendar'),
@@ -23,6 +24,7 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/register': (_) => const RegisterScreen(title: 'Register'),
   '/week-view': (_) => const WeekViewScreen(title: 'Week View'),
   '/create-event': (_) => const CreateEventScreen(title: 'Create New Event'),
+  '/day-view': (_) => const DayViewScreen(title: 'Day View'),
   '/event-detail': (context) {
     // Extract the event item passed as an argument
     final event = ModalRoute.of(context)!.settings.arguments as EventItem;
