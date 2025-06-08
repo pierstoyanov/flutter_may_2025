@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/providers/bottom_navigation_bar_provider.dart';
-import 'package:flutter_application_1/widgets/app_bar.dart';
-import 'package:flutter_application_1/widgets/navbar.dart';
+import 'package:flutter_application_1/widgets/my_app_bar.dart';
+import 'package:flutter_application_1/widgets/my_bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/widgets/month_callendar/month_calendar.dart';
 
