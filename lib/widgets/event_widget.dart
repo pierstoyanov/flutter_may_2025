@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/event_item.dart';
 import 'package:flutter_application_1/providers/calendar_provider.dart';
 import 'package:flutter_application_1/data/event_repository.dart';
 import 'package:intl/intl.dart';
