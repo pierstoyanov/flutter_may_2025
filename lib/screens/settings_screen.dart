@@ -38,13 +38,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           const Text(
-            'Избор на тема',
+            'Choose a theme',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          _themeOption('Светла тема', ThemeMode.light),
-          _themeOption('Тъмна тема', ThemeMode.dark),
-          _themeOption('Системна тема', ThemeMode.system),
+          _themeOption('Light', ThemeMode.light),
+          _themeOption('Dark', ThemeMode.dark),
+          _themeOption('Use System settings', ThemeMode.system),
         ],
       ),
       bottomNavigationBar: MyBottomNavigationBar(
