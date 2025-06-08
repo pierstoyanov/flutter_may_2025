@@ -9,9 +9,10 @@ class BottomNavigationBarProvider with ChangeNotifier{
   String _getRouteName(int index) {
     switch (index) {
       case 0: return '/'; // LandingPage
-      case 1: return '/tasks';
+      case 1: return '/events';
       case 2: return '/profile';
       case 3: return '/settings';
+      case 4: return '/login';
       default: return ''; // Should not happen with a fixed number of tabs
     }
   }
