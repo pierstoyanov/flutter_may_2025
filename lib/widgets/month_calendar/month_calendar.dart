@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/providers/calendar_provider.dart';
-import 'package:flutter_application_1/widgets/month_callendar/month_calendar_carousel.dart';
+import 'package:flutter_application_1/widgets/month_calendar/month_calendar_carousel.dart';
 
 class MonthCalendar extends StatelessWidget{
   const MonthCalendar({super.key});

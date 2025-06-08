@@ -4,7 +4,7 @@ import 'package:flutter_application_1/widgets/event_widget.dart';
 import 'package:flutter_application_1/widgets/my_app_bar.dart';
 import 'package:flutter_application_1/widgets/my_bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application_1/widgets/month_callendar/month_calendar.dart';
+import 'package:flutter_application_1/widgets/month_calendar/month_calendar.dart';
 import 'package:flutter_application_1/widgets/create_event_fab.dart';
 import 'package:flutter_application_1/widgets/view_toggle_fab.dart';
 

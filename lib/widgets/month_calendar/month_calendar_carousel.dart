@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/providers/calendar_provider.dart';
-import 'package:flutter_application_1/widgets/month_callendar/month_calendar_element.dart';
+import 'package:flutter_application_1/widgets/month_calendar/month_calendar_element.dart';
 
 class MonthCalendarCarousel extends StatefulWidget {
   // This widget handles horisontal swiping of Month Callendar Elemnents
