@@ -7,7 +7,7 @@ class AppTheme {
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.lightBackground,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.primary,
+      backgroundColor: Colors.green,
       foregroundColor: Colors.white,
       elevation: 0,
     ),
@@ -34,7 +34,7 @@ class AppTheme {
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.darkBackground,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: Colors.deepPurple,
       foregroundColor: Colors.white,
       elevation: 0,
     ),

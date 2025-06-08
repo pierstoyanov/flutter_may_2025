@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Primary palette
-  static const Color primary = Color(0xFFE29578);
+  static const Color primary = Colors.lightGreen;
   static const Color accent = Color(0xFFF4A698);
 
   // Backgrounds
