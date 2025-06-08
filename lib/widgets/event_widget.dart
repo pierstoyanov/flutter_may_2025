@@ -34,7 +34,8 @@ class DailyEventsWidget extends StatelessWidget {
                     ? 'Events for ${DateFormat.yMMMMd().format(selectedDate)}'
                     : 'Events in ${DateFormat.yMMMM().format(DateTime.now())}',
                 style: Theme.of(context).textTheme.titleLarge,
-              )),
+                )
+              ),
               const SizedBox(height: 10),
               if (eventRepository.isLoading)
                 const Center(child: CircularProgressIndicator())
