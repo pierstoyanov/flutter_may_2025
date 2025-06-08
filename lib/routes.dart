@@ -11,6 +11,8 @@ import 'package:flutter_application_1/widgets/my_bottom_navigation_bar.dart';
 import 'package:flutter_application_1/screens/auth_screen.dart';
 import 'package:flutter_application_1/screens/event_detail_screen.dart';
 import 'package:flutter_application_1/models/event_item.dart';
+import 'package:flutter_application_1/screens/week_view_screen.dart';
+import 'package:flutter_application_1/screens/create_event_screen.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
   '/': (_) => const LandingPage(title: 'Calendar'),
@@ -19,13 +21,14 @@ final Map<String, WidgetBuilder> appRoutes = {
   '/profile': (_) => const ProfileScreen(title: 'Profile'), 
   '/auth': (_) => const AuthScreen(title: 'Login'),
   '/register': (_) => const RegisterScreen(title: 'Register'),
+  '/week-view': (_) => const WeekViewScreen(title: 'Week View'),
+  '/create-event': (_) => const CreateEventScreen(title: 'Create New Event'),
   '/event-detail': (context) {
     // Extract the event item passed as an argument
     final event = ModalRoute.of(context)!.settings.arguments as EventItem;
     return EventDetailScreen(event: event, title: 'Event Details');
   },
 };
-
 // A simple placeholder screen for routes that are not yet fully implemented.
 class PlaceholderScreen extends StatelessWidget {
   final String title;
