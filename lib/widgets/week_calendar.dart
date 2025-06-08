@@ -10,7 +10,6 @@ class WeekCalendar extends StatelessWidget {
   Widget build(BuildContext context) {
     final calendarProvider = context.watch<CalendarProvider>();
     final DateTime startOfWeek = calendarProvider.focusedWeekStartDate;
-    final DateTime endOfWeek = startOfWeek.add(const Duration(days: 6));
 
     return SingleChildScrollView(
       child: Table(
