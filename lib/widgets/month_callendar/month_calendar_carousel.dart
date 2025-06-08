@@ -113,7 +113,7 @@ class _MonthCalendarCarouselState extends State<MonthCalendarCarousel> {
 
 
     return Container(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),

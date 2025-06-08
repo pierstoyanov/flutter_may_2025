@@ -8,11 +8,15 @@ class MonthCalendar extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<CalendarProvider>(
       builder: (context, calendarProvider, child){
         return  Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(
+            top: 10,
+            left: 20,
+            right: 20,
+            bottom: 10
+          ),
           child: MonthCalendarCarousel(
             initialDate: calendarProvider.currentMonth, // Initial month for PageController
             onDateSelected: (date) {
