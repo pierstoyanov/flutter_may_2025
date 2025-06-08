@@ -5,6 +5,7 @@ import 'package:flutter_application_1/widgets/my_app_bar.dart';
 import 'package:flutter_application_1/widgets/my_bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/widgets/month_callendar/month_calendar.dart';
+import 'package:flutter_application_1/widgets/create_event_fab.dart';
 
 
 class LandingPage extends StatefulWidget {
@@ -18,8 +19,8 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
-    // Use 'watch' to rebuild if currentIndex changes.
     final navbarProvider = context.watch<BottomNavigationBarProvider>();
+
     return Scaffold(
       appBar: MyAppBar(title: widget.title), // widget.title refers to "Calendar"
       body: ListView(
@@ -31,6 +32,7 @@ class _LandingPageState extends State<LandingPage> {
         currentIndex: navbarProvider.currentIndex,
         onItemSelected: (index) => navbarProvider.navigateTo(index, context),
       ),
+      floatingActionButton: const CreateEventFAB(),
     );
   }
 }
