@@ -57,23 +57,21 @@ class MonthCalendarElementState extends State<MonthCalendarElement> {
   }
 
   // Builds a single day cell
-  Widget _buildDayCell(int day, bool isCurrentMonth) {
+  Widget _buildDayCell(DateTime cellDate, bool isDisplayedMonth) {
     final DateTime today = DateTime.now();
-    final DateTime currentDate =
-        DateTime(widget.initialDate.year, widget.initialDate.month, day);
-    final bool isToday = currentDate.year == today.year &&
-        currentDate.month == today.month &&
-        currentDate.day == today.day;
+    final bool isToday = cellDate.year == today.year &&
+        cellDate.month == today.month &&
+        cellDate.day == today.day;
     // Check against the selectedDate passed from the provider
     final bool isSelected = widget.selectedDate != null &&
-        currentDate.year == widget.selectedDate!.year &&
-        currentDate.month == widget.selectedDate!.month &&
-        currentDate.day == widget.selectedDate!.day;
+        cellDate.year == widget.selectedDate!.year &&
+        cellDate.month == widget.selectedDate!.month &&
+        cellDate.day == widget.selectedDate!.day;
     final bool isWeekend =
-        currentDate.weekday == DateTime.saturday || currentDate.weekday == DateTime.sunday;
+        cellDate.weekday == DateTime.saturday || cellDate.weekday == DateTime.sunday;
 
     Color? textColor = widget.dayTextColor;
-    if (!isCurrentMonth) {
+    if (!isDisplayedMonth) {
       textColor = Theme.of(context).disabledColor; // Dim out days from other months
     } else if (isWeekend) {
       textColor = widget.weekendTextColor ?? Theme.of(context).colorScheme.error;
@@ -95,16 +93,16 @@ class MonthCalendarElementState extends State<MonthCalendarElement> {
 
     return GestureDetector(
       onTap: () {
-        if (isCurrentMonth) {
+        if (isDisplayedMonth) {
           // Call the callback to notify the provider
-          widget.onDateSelected?.call(currentDate);
+          widget.onDateSelected?.call(cellDate);
         }
       },
       child: Container(
         decoration: decoration,
         alignment: Alignment.center,
         child: Text(
-          '$day',
+          '${cellDate.day}',
           style: TextStyle(
             color: textColor,
             fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
@@ -164,23 +162,30 @@ class MonthCalendarElementState extends State<MonthCalendarElement> {
       final int daysInMonth = _getNumberOfDaysInMonth(widget.initialDate);
 
       final int leadingEmptyCells = firstDayWeekday;
+      
+      // Calculate the first day of the previous month to correctly get its year and month
+      final DateTime firstDayOfCurrentMonth = _getFirstDayOfMonth(widget.initialDate);
+      final DateTime firstDayOfPreviousMonth = DateTime(firstDayOfCurrentMonth.year, firstDayOfCurrentMonth.month -1, 1);
+      final int daysInPreviousMonth = _getNumberOfDaysInMonth(firstDayOfPreviousMonth);
 
-      final DateTime lastDayOfPreviousMonth = DateTime(widget.initialDate.year, widget.initialDate.month, 0);
-      final int daysInPreviousMonth = lastDayOfPreviousMonth.day;
       final List<Widget> previousMonthDays = List.generate(leadingEmptyCells, (index) {
         final int day = daysInPreviousMonth - leadingEmptyCells + 1 + index;
-        return _buildDayCell(day, false);
+        final DateTime cellDate = DateTime(firstDayOfPreviousMonth.year, firstDayOfPreviousMonth.month, day);
+        return _buildDayCell(cellDate, false);
       });
 
       final List<Widget> currentMonthDays = List.generate(daysInMonth, (index) {
-        return _buildDayCell(index + 1, true);
+        final int day = index + 1;
+        final DateTime cellDate = DateTime(widget.initialDate.year, widget.initialDate.month, day);
+        return _buildDayCell(cellDate, true);
       });
 
       final int totalCells = leadingEmptyCells + daysInMonth;
       final int trailingEmptyCells = (7 - (totalCells % 7)) % 7;
-
+      final DateTime firstDayOfNextMonth = DateTime(firstDayOfCurrentMonth.year, firstDayOfCurrentMonth.month + 1, 1);
       final List<Widget> nextMonthDays = List.generate(trailingEmptyCells, (index) {
-        return _buildDayCell(index + 1, false);
+        final DateTime cellDate = DateTime(firstDayOfNextMonth.year, firstDayOfNextMonth.month, index + 1);
+        return _buildDayCell(cellDate, false);
       });
 
       final List<Widget> allDayCells = [
