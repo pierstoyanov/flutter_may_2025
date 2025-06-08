@@ -17,7 +17,7 @@ class MonthCalendarCarousel extends StatefulWidget {
   final double? headerFontSize;
 
   const MonthCalendarCarousel({
-    Key? key,
+    super.key,
     required this.initialDate,
     this.onDateSelected,
     this.selectedDayColor,
@@ -27,7 +27,7 @@ class MonthCalendarCarousel extends StatefulWidget {
     this.headerTextColor,
     this.dayFontSize,
     this.headerFontSize,
-  }) : super(key: key);
+  });
 
   @override
   _MonthCalendarCarouselState createState() => _MonthCalendarCarouselState();

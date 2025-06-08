@@ -14,7 +14,7 @@ class MonthCalendarElement extends StatefulWidget {
   final double? headerFontSize;
 
   const MonthCalendarElement({
-    Key? key,
+    super.key,
     required this.initialDate, // This is the month to show
     this.onDateSelected,
     this.onHeightDetermined,
@@ -26,7 +26,7 @@ class MonthCalendarElement extends StatefulWidget {
     this.headerTextColor,
     this.dayFontSize,
     this.headerFontSize,
-  }) : super(key: key);
+  });
 
   @override
   MonthCalendarElementState createState() => MonthCalendarElementState();
