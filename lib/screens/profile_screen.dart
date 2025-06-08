@@ -47,24 +47,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: MyAppBar(title: widget.title),
       body: Center(
-        child: _currentUser == null
-            ? ElevatedButton(
+          child: _currentUser == null
+            ? 
+            Column(children: [
+              Text('You are currently not logged in. Please enter or create an account to save your data to the cloud.',
+                style: TextStyle(
+                fontStyle: FontStyle.italic),
+              ),
+              ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/auth');
                 },
                 child: const Text('Login / Register'),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Welcome, ${_currentUser!.email ?? 'User'}!'),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _logout,
-                    child: const Text('Logout'),
-                  ),
-                ],
               ),
+            ]) 
+            : 
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Welcome, ${_currentUser!.email ?? 'User'}!'),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _logout,
+                  child: const Text('Logout'),
+                ),
+              ],
+            ),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
         currentIndex: navbarProvider.currentIndex,
