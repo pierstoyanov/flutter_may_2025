@@ -115,11 +115,11 @@ class _MonthCalendarCarouselState extends State<MonthCalendarCarousel> {
     return Container(
       padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(15.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey,
+            color: Theme.of(context).shadowColor,
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -154,7 +154,7 @@ class _MonthCalendarCarouselState extends State<MonthCalendarCarousel> {
                 style: TextStyle(
                   fontSize: widget.headerFontSize != null ? widget.headerFontSize! + 4 : 20,
                   fontWeight: FontWeight.bold,
-                  color: widget.headerTextColor ?? Colors.black,
+                  color: widget.headerTextColor ?? Theme.of(context).textTheme.titleLarge?.color,
                 ),
               ),
               IconButton(

@@ -45,7 +45,7 @@ class DailyEventsWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     'No events for this day.',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).disabledColor),
                   ),
                 )
               else

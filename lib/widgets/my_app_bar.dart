@@ -13,11 +13,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         centerTitle: true,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(40),
           )
         ),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       );
   }

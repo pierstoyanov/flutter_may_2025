@@ -87,7 +87,11 @@ class _AuthScreenState extends State<AuthScreen> {
               if (_errorMessage != null)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
+                  child: Text(_errorMessage!, 
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error
+                      )
+                    ),
                 ),
               _isLoading
                   ? const Center(child: CircularProgressIndicator())

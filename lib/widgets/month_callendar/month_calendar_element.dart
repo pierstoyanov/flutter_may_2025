@@ -74,9 +74,9 @@ class MonthCalendarElementState extends State<MonthCalendarElement> {
 
     Color? textColor = widget.dayTextColor;
     if (!isCurrentMonth) {
-      textColor = Colors.grey; // Dim out days from other months
+      textColor = Theme.of(context).disabledColor; // Dim out days from other months
     } else if (isWeekend) {
-      textColor = widget.weekendTextColor ?? Colors.red;
+      textColor = widget.weekendTextColor ?? Theme.of(context).colorScheme.error;
     }
 
     BoxDecoration? decoration;
@@ -85,10 +85,10 @@ class MonthCalendarElementState extends State<MonthCalendarElement> {
         color: widget.selectedDayColor ?? Theme.of(context).primaryColor,
         shape: BoxShape.circle,
       );
-      textColor = Colors.white; // White text for selected day
+      textColor = Theme.of(context).colorScheme.onPrimary; // Text color on primary
     } else if (isToday) {
       decoration = BoxDecoration(
-        border: Border.all(color: widget.todayColor ?? Colors.blue, width: 2),
+        border: Border.all(color: widget.todayColor ?? Theme.of(context).colorScheme.secondary, width: 2),
         shape: BoxShape.circle,
       );
     }
@@ -136,7 +136,7 @@ class MonthCalendarElementState extends State<MonthCalendarElement> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: widget.headerTextColor ?? Colors.blueGrey,
+                    color: widget.headerTextColor ?? Theme.of(context).textTheme.bodySmall?.color,
                     fontSize: widget.headerFontSize,
                   ),
                 ),

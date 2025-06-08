@@ -15,6 +15,9 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
       secondary: AppColors.accent,
+      surface: AppColors.lightBackground, 
+      error: Colors.red, 
+      onError: Colors.white, 
     ),
     textTheme: const TextTheme(
       titleLarge: TextStyle(
@@ -39,6 +42,9 @@ class AppTheme {
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary,
       secondary: AppColors.accent,
+      surface: AppColors.darkBackground, 
+      error: AppColors.darkError, 
+      onError: Colors.black, 
     ),
     textTheme: const TextTheme(
       titleLarge: TextStyle(

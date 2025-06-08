@@ -63,8 +63,8 @@ class EventDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   TextButton.icon(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    label: const Text('Delete', style: TextStyle(color: Colors.red)),
+                    icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error),
+                    label: Text('Delete', style: TextStyle(color: Theme.of(context).colorScheme.error)),
                     onPressed: () async {
                       final confirmDelete = await showDialog<bool>(
                         context: context,
@@ -73,7 +73,7 @@ class EventDetailScreen extends StatelessWidget {
                           content: const Text('Are you sure you want to delete this event?'),
                           actions: [
                             TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')),
-                            TextButton(onPressed: () => Navigator.of(ctx).pop(true), child: const Text('Delete', style: TextStyle(color: Colors.red))),
+                            TextButton(onPressed: () => Navigator.of(ctx).pop(true), child: Text('Delete', style: TextStyle(color: Theme.of(context).colorScheme.error))),
                           ],
                         ),
                       );

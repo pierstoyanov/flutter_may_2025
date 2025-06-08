@@ -97,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 20),
               if (_errorMessage != null)
-                Padding(padding: const EdgeInsets.only(bottom: 10), child: Text(_errorMessage!, style: const TextStyle(color: Colors.red))),
+                Padding(padding: const EdgeInsets.only(bottom: 10), child: Text(_errorMessage!, style: TextStyle(color: Theme.of(context).colorScheme.error))),
               _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : ElevatedButton(onPressed: _registerUser, child: const Text('Register')),

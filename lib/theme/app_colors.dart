@@ -12,4 +12,5 @@ class AppColors {
   // Text
   static const Color lightText = Color(0xFF3E2723);
   static const Color darkText = Colors.white;
+  static const Color darkError = Color(0xFFCF6679);
 }
