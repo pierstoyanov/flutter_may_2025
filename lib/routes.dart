@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/register_screen.dart';
+import 'package:flutter_application_1/screens/events_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/providers/bottom_navigation_bar_provider.dart';
 import 'package:flutter_application_1/screens/landing_page.dart';
-import 'package:flutter_application_1/screens/profile_page.dart';
+import 'package:flutter_application_1/screens/profile_screen.dart';
 import 'package:flutter_application_1/screens/settings_screen.dart';
 import 'package:flutter_application_1/widgets/my_app_bar.dart';
 import 'package:flutter_application_1/widgets/my_bottom_navigation_bar.dart';
 import 'package:flutter_application_1/screens/auth_screen.dart';
+import 'package:flutter_application_1/screens/event_detail_screen.dart';
+import 'package:flutter_application_1/models/event_item.dart';
 
 final Map<String, WidgetBuilder> appRoutes = {
   '/': (_) => const LandingPage(title: 'Calendar'),
   '/settings': (_) => const SettingsScreen(title: 'Settings'),
-  '/tasks': (_) => const PlaceholderScreen(title: 'Tasks'),
-  '/profile': (_) => const ProfileScreen(title: 'Profile'), // Changed to ProfileScreen
-  '/auth': (_) => const AuthScreen(), // New route for authentication
+  '/events': (_) => const EventsScreen(title: 'Events'),
+  '/profile': (_) => const ProfileScreen(title: 'Profile'), 
+  '/auth': (_) => const AuthScreen(title: 'Login'),
+  '/register': (_) => const RegisterScreen(title: 'Register'),
+  '/event-detail': (context) {
+    // Extract the event item passed as an argument
+    final event = ModalRoute.of(context)!.settings.arguments as EventItem;
+    return EventDetailScreen(event: event, title: 'Event Details');
+  },
 };
 
 // A simple placeholder screen for routes that are not yet fully implemented.
