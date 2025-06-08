@@ -19,7 +19,7 @@ class MyBottomNavigationBar extends StatelessWidget {
       onTap: onItemSelected,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'Tasks'),
+        BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: 'Events'),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
       ],
