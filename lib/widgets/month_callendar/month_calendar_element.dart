@@ -29,10 +29,10 @@ class MonthCalendarElement extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MonthCalendarElementState createState() => _MonthCalendarElementState();
+  MonthCalendarElementState createState() => MonthCalendarElementState();
 }
 
-class _MonthCalendarElementState extends State<MonthCalendarElement> {
+class MonthCalendarElementState extends State<MonthCalendarElement> {
   // Helper to get the first day of the month
   DateTime _getFirstDayOfMonth(DateTime month) {
     return DateTime(month.year, month.month, 1);

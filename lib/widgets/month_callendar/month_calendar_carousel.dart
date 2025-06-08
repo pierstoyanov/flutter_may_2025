@@ -58,7 +58,7 @@ class _MonthCalendarCarouselState extends State<MonthCalendarCarousel> {
       // Only update provider when page has fully settled on a new index
       final int newIndex = _pageController.page!.round();
       final DateTime newMonth = _getMonthForPageIndex(newIndex);
-      final calendarProvider = Provider.of<CalendarProvider>(context, listen: false);
+      final calendarProvider = context.read<CalendarProvider>(); // HERE could be trouble
       if (newMonth.year != calendarProvider.currentMonth.year ||
           newMonth.month != calendarProvider.currentMonth.month) {
         calendarProvider.setCurrentMonth(newMonth);
@@ -88,7 +88,7 @@ class _MonthCalendarCarouselState extends State<MonthCalendarCarousel> {
     // Initial page index must be calculated only once or when initialDate changes.
     // In this setup, it's calculated in initState and managed by PageController.
     // We are now listening to the provider's `currentMonth` to update the header.
-    final calendarProvider = Provider.of<CalendarProvider>(context);
+    final calendarProvider = context.watch<CalendarProvider>();
 
     // Synchronize PageView with CalendarProvider's currentMonth.
     // This ensures that if currentMonth changes in the provider (e.g., after button press
