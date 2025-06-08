@@ -29,10 +29,12 @@ class DailyEventsWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Events for ${DateFormat.yMMMMd().format(selectedDate!)}',
+              Center (child: Text(
+                selectedDate != null
+                    ? 'Events for ${DateFormat.yMMMMd().format(selectedDate)}'
+                    : 'Events in ${DateFormat.yMMMM().format(DateTime.now())}',
                 style: Theme.of(context).textTheme.titleLarge,
-              ),
+              )),
               const SizedBox(height: 10),
               if (eventRepository.isLoading)
                 const Center(child: CircularProgressIndicator())
