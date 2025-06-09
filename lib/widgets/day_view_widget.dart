@@ -8,7 +8,7 @@ class DayViewWidget extends StatelessWidget {
 
   const DayViewWidget({
     super.key,
-    this.hourRowHeight = 60.0, // Height for each hour slot
+    this.hourRowHeight = 60.0, 
   });
 
   @override

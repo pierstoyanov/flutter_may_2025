@@ -40,12 +40,19 @@ class CalendarProvider extends ChangeNotifier {
   }
 
   void setSelectedDate(DateTime date) {
-    _selectedDate = date;
+    _selectedDate = date; // Update the selected date
+
+    // Update currentMonth if the new selectedDate is in a different month
+    if (date.month != _currentMonth.month || date.year != _currentMonth.year) {
+      _currentMonth = DateTime(date.year, date.month, 1);
+    }
+
     // When a new date is selected, update the focused week to contain this date
     final newFocusedWeek = _calculateWeekStartDate(date);
     if (_focusedWeekStartDate != newFocusedWeek) {
       _focusedWeekStartDate = newFocusedWeek;
     }
+    
     notifyListeners();
   }
   
@@ -67,5 +74,19 @@ class CalendarProvider extends ChangeNotifier {
     _focusedWeekStartDate = _focusedWeekStartDate.add(const Duration(days: 7));
     _selectedDate = null; // Optionally clear selection when changing week
     notifyListeners();
+  }
+
+  void goToNextDay() {
+    if (_selectedDate == null) {
+      return; // Or handle as appropriate for your app's logic
+    }
+    setSelectedDate(_selectedDate!.add(const Duration(days: 1)));
+  }
+
+  void goToPreviousDay() {
+    if (_selectedDate == null) {
+      return; 
+    }
+    setSelectedDate(_selectedDate!.subtract(const Duration(days: 1)));
   }
 }
