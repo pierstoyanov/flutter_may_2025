@@ -27,10 +27,10 @@ class EventItem {
       'id': id,
       'title': title,
       'description': description,
-      'startTime': startTime,
-      'endTime': endTime,
+      'startTime': startTime.toIso8601String(),
+      'endTime': endTime.toIso8601String(),
       'createdBy': createdBy,
-      'createdAt': createdAt,
+      'createdAt': createdAt.toIso8601String(),
       'color': color
     };
   }
@@ -44,8 +44,8 @@ class EventItem {
       startTime: DateTime.parse(map['startTime'] as String),
       endTime: DateTime.parse(map['endTime'] as String),
       createdBy: map['createdBy'] as String,
-      createdAt: DateTime.parse(map['createdAt'] as String),
-      color: map['color'] as String
+      createdAt: DateTime.parse(map['createdAt'] as String), 
+      color: map['color'] as String?
     );
   }
 
