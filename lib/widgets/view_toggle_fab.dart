@@ -41,9 +41,9 @@ class ViewToggleFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => _showViewOptionsDialog(context),
-      tooltip: 'Change View',
-      child: const Icon(Icons.calendar_today), // Calendar icon
+      tooltip: 'Change View', 
       heroTag: heroTag,
+      child: const Icon(Icons.calendar_today), // Calendar icon
     );
   }
 }
